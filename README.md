@@ -10,7 +10,7 @@
 -  **Audio to Text**: Extracts transcripts from YouTube podcasts using Whisper ASR.
 -  **Advanced NLP Pipeline**: Cleans, structures, and analyzes speaker-labeled text.
 -  **Unsupervised Topic Modeling**: NMF, LSA, and LDA applied to ungrouped podcast segments.
-- 🏷 **Quote Classification**: Predicts the topic category using TF-IDF + ML model.
+-  **Quote Classification**: Predicts the topic category using TF-IDF + ML model.
 -  **LangChain Agent**: GPT-4-powered assistant integrates knowledge with tools.
 -  **Flask Dashboard**: Interactive data visualization via HTML templates.
 -  **Streamlit Bot**: Frontend chatbot that leverages LangChain agent tools.
