@@ -117,21 +117,18 @@ streamlit run streamlit/app_streamlit.py
 - **LangChain**: Conversational Agent + Tools + GPT-4
 ---
 
-## 📦 Docker Deployment
+##  Docker Deployment
 
 ```bash
 docker build -t ai-explains-bot .
 docker run -p 5000:5000 ai-explains-bot
 ```
 ---
-## 👩‍💻 Developed By
+## Developed By
 
 Archana Suresh Patil  
 University of San Diego | Applied Data Science 509  
 GitHub: [ArchanaChetan07](https://github.com/ArchanaChetan07)
-
-For collaborations or enterprise inquiries, please reach out.
-
 
 ---
 
@@ -142,7 +139,7 @@ This project was submitted for **ADS-509 – Applied Text Mining** at the Univer
 **Team Number**: Group 6  
 **Team Leader**: Archana Suresh Patil  
 **Project Title**: *AI Explains What They Meant: An Emotion & Insight Mining Framework for Podcasts*  
-**Dataset**: Whispering-GPT / Lex Fridman Podcast Dataset (via Hugging Face)  
+**Dataset**: Lex Fridman Podcast Dataset (via Hugging Face)  
 [GitHub Repository](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant.git)
 
 ### 🧾 Objectives (from official project update)
