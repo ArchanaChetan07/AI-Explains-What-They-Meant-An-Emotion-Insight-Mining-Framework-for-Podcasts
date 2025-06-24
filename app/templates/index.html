@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lex Podcast Topic Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            padding: 30px;
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 16px;
+            background: #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        nav a:hover {
+            background: #bbb;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type=submit] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background: #0056b3;
+        }
+        .output {
+            margin-top: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧠 Lex Fridman Topic Predictor</h1>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/">🏠 Home</a>
+        <a href="/insights">📊 Podcast Insights</a>
+    </nav>
+
+    <!-- Prediction Form -->
+    <form method="post" action="/predict">
+        <textarea name="text" placeholder="Paste podcast excerpt here..." required>{{ input_text or "" }}</textarea><br><br>
+        <input type="submit" value="Predict Topic">
+    </form>
+
+    <!-- Output Results -->
+    {% if predicted_topic is not none %}
+    <div class="output">
+        <h2>🎯 Predicted Topic: <span style="color: #007BFF">{{ predicted_topic }}</span></h2>
+        {% if predicted_label %}
+        <h3>📁 Category: {{ predicted_label }}</h3>
+        {% endif %}
+
+        <h4>🔍 Top Influential Words:</h4>
+        <ul>
+        {% for word, score in top_words %}
+            <li>🔹 <strong>{{ word }}</strong> — {{ "%.4f"|format(score) }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+</html>

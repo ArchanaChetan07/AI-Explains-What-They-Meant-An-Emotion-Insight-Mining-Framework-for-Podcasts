@@ -1,0 +1,5 @@
+LDA 1: like, just, know, yeah, think, don, going, people, time, really
+LDA 2: think, like, just, really, right, kind, things, people, learning, know
+LDA 3: like, know, just, think, people, yeah, right, don, really, kind
+LDA 4: people, think, know, just, don, right, world, like, say, way
+LDA 5: know, think, like, just, things, kind, don, say, way, life

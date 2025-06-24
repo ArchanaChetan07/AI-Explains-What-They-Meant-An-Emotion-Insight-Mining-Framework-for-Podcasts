@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lex Fridman Podcast Insights</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        img {
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-bottom: 30px;
+            max-width: 100%;
+            height: auto;
+            background-color: white;
+        }
+        ul {
+            list-style-type: square;
+        }
+        pre {
+            background: #f8f8f8;
+            padding: 15px;
+            overflow-x: auto;
+            border-left: 5px solid #ddd;
+        }
+        .insight-block {
+            margin-bottom: 50px;
+        }
+        a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lex Fridman Podcast Insights</h1>
+
+    <div class="insight-block">
+        <h2>📊 Estimated Episode Duration</h2>
+        <img src="/static/plots/duration_plot.png" alt="Duration Plot">
+    </div>
+
+    <div class="insight-block">
+        <h2>👥 Top 10 Frequent Guests</h2>
+        <img src="/static/plots/top_guests.png" alt="Top Guests">
+    </div>
+
+    <div class="insight-block">
+        <h2>☁️ Word Cloud</h2>
+        <img src="/static/plots/wordcloud.png" alt="Word Cloud">
+    </div>
+
+    <div class="insight-block">
+        <h2>📈 Category Distribution Over Time</h2>
+        <img src="/static/plots/category_trend.png" alt="Category Trend">
+    </div>
+
+    <div class="insight-block">
+        <h2>🧠 NMF Topics</h2>
+        <pre>{{ nmf_text }}</pre>
+    </div>
+
+    <div class="insight-block">
+        <h2>📘 LSA Topics</h2>
+        <pre>{{ lsa_text }}</pre>
+    </div>
+
+    <div class="insight-block">
+        <h2>📙 LDA Topics</h2>
+        <pre>{{ lda_text }}</pre>
+    </div>
+
+    <div class="insight-block">
+        <h2>🧪 Classification Report</h2>
+        <pre>{{ clf_report }}</pre>
+    </div>
+
+    <div class="insight-block">
+        <h2>📊 Topic Word Scores (CSV)</h2>
+        <p><a href="/static/plots/topic_word_scores.csv" download>Download CSV</a></p>
+    </div>
+
+    <div class="insight-block">
+        <h2>🚀 Branding Pillars</h2>
+        <ul>
+            {% for key, value in branding.items() %}
+                <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="insight-block">
+        <h2>💰 Monetization Ideas</h2>
+        <ul>
+            {% for key, items in monetization.items() %}
+                <li><strong>{{ key }}:</strong>
+                    <ul>
+                        {% for item in items %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <p><a href="/">⬅ Back to Home</a></p>
+</body>
+</html>
