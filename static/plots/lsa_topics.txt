@@ -1,0 +1,5 @@
+LSA 1: like, think, just, know, people, don, right, yeah, really, things
+LSA 2: like, yeah, um, know, gonna, uh, guy, love, oh, shit
+LSA 3: know, people, war, putin, don, uh, ukraine, going, russia, said
+LSA 4: know, uh, quantum, um, yeah, universe, brain, physics, sort, theory
+LSA 5: uh, learning, um, ai, know, people, data, neural, really, machine
