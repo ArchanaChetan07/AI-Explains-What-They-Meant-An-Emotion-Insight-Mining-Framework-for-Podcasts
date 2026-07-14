@@ -1,92 +1,173 @@
-# AI Explains What They Meant — Podcast Emotion Insight Framework
+# Emotion Insight Mining Framework for Podcasts
 
-### Lex Fridman transcript mining — LSA/NMF/LDA topics, emotion classification, Flask + LangChain UI
+### Mine Lex Fridman-style podcast transcripts for topics, classifications, and chat Q&A.
 
-[![CI](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts/actions/workflows/ci.yml/badge.svg)](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/pytest-8%20tests-1f8a4c)](tests/test_ai_explains_what_they_mea.py)
-[![Flask](https://img.shields.io/badge/Flask-insights%20UI-000000)](app/)
-[![License](https://img.shields.io/badge/license-see%20repo-2d3748)](#license)
-
-End-to-end NLP framework for **Lex Fridman podcast transcripts**: collect 346 episodes, preprocess segments, run LSA/NMF/LDA topic models (5 topics each), train a text classifier, and serve insights through a **Flask** web app plus optional **Streamlit** and **LangChain** chat tools. No FastAPI or Prometheus stack is implemented in this repo.
+[![GitHub](https://img.shields.io/badge/repo-AI-Explains-What-They-Meant-An-Emotion-I-181717?logo=github)](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts)
+[![Language](https://img.shields.io/badge/language-Jupyter%20Notebook-3572A5)](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts)
+[![License](https://img.shields.io/badge/license-See%20repository-yellow)](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts)
+[![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts/actions)
 
 ---
 
-## Key Results
+## Overview
 
-| Metric | Value | Source |
-|---|---|---|
-| Podcast episodes (raw CSV) | **346** rows | `notebooks/01_data_collection.ipynb` output |
-| Pipeline notebooks | **5** | `notebooks/01`–`05` |
-| Python modules | **15** | `app/`, `langchain_chatbot/`, helpers |
-| Topic models compared | **LSA + NMF + LDA** (5 topics each) | `notebooks/03_topic_modeling.ipynb` |
-| Classifier test accuracy | **0.97** (68 samples) | `notebooks/04_classification.ipynb` output |
-| Saved models | **2** (`classification_model.pkl`, `vectorizer.pkl`) | `final_model/` |
-| Unit tests | **8** | `tests/test_ai_explains_what_they_mea.py` |
-| Flask routes | **Yes** | `app/app.py`, `app/routes.py` |
-| Docker | **Yes** | `Dockerfile` |
-| BERTopic export | **1** CSV | `notebooks/prediction_output/bertopic_summary.csv` |
+Long podcast transcripts are hard to explore; listeners need topic structure, visual insights, and conversational overviews of episode content.
+
+Notebook pipeline (data collection â†’ preprocessing â†’ topic modeling â†’ classification â†’ Flask integration) plus Flask routes that run NMF/LSA/LDA, wordclouds, and duration/guest plots; LangChain tools for guest search/wiki/topic prediction; optional Streamlit entry.
+
+End-to-end demo stack with Flask + LangChain chatbot, saved sklearn model/vectorizer pickles, sample transcripts, and topic artifacts under static/plots.
+
+This repository is maintained as **production-minded portfolio work**: clear architecture, automated checks where present, and metrics that are **traceable to committed artifacts** (never invented).
 
 ---
 
 ## Architecture
 
+Transcripts/CSV â†’ notebooks (clean + topic/classify) â†’ saved plots/models â†’ Flask insights UI + LangChain /ask agent (tools: guest search, wiki, topic predict) â†’ optional Streamlit.
+
 ```mermaid
 flowchart TB
-    YT[YouTube / Lex Fridman metadata] --> COL[01_data_collection.ipynb]
-    COL --> RAW[data/raw/lex_fridman_podcast.csv 346 rows]
-    RAW --> PRE[02_preprocessing.ipynb]
-    PRE --> TOP[03_topic_modeling: LSA NMF LDA]
-    TOP --> CLS[04_classification.ipynb acc 0.97]
-    CLS --> PKL[final_model/*.pkl]
-    PKL --> FLASK[Flask insights UI]
-    PKL --> LC[LangChain chatbot tools]
-    TOP --> PLOTS[static wordcloud + topic plots]
+  T[Transcripts / cleaned CSV] --> N[Notebooks: preprocess + topic + classify]
+  N --> M[final_model/*.pkl]
+  N --> P[static plots]
+  M --> F[Flask app routes]
+  P --> F
+  F --> L[LangChain tools chatbot /ask]
+  F --> S[Streamlit app_streamlit.py]
 ```
 
-**How it works:** Notebooks ingest podcast metadata and transcript text, tokenize segments, fit TF-IDF + matrix factorization models, and train a sklearn classifier saved to `final_model/`. The Flask app renders topic word clouds, guest charts, and prediction routes; LangChain tools wrap guest search, topic prediction, and Wikipedia lookup.
+```mermaid
+sequenceDiagram
+  participant U as User/Client
+  participant S as Service/Pipeline
+  participant E as Eval/Tools
+  U->>S: request / job
+  S->>E: execute
+  E-->>S: results
+  S-->>U: report / response
+```
 
 ---
 
-## Tech Stack
+## Results & repository facts
 
-| Layer | Choice |
+> Only values found in code, configs, tests, or generated reports are listed. Absence of a clinical/ML accuracy number means it was **not** published in-repo.
+
+| Metric | Value | Source |
+|---|---|---|
+| Tracked repository files | **63** | `git tree` |
+| Python modules (non-pycache) | **15** | `git tree *.py` |
+| Notebooks | **5** | `notebooks/*.ipynb` |
+| Sample transcripts included | **5** | `Transcripts/*.txt` |
+| Topic model components (NMF/LDA/LSA) | **5** | `app/routes.py (n_components=5)` |
+| TF-IDF max_features | **1000** | `app/routes.py` |
+| Words-per-minute duration heuristic | **150** | `app/routes.py; app/generate_insights.py` |
+| Tracked files | **63** | `git tree` |
+| Python modules | **15** | `git tree` |
+| Test-related paths | **1** | `git tree` |
+| CI workflows | **Yes** | `.github/workflows` |
+| Docker present | **Yes** | `repo root` |
+
+```mermaid
+%%{init: {'theme':'base'}}%%
+pie showData title Language composition (bytes)
+    "Jupyter Notebook" : 97
+    "Python" : 2
+    "HTML" : 1
+    "Dockerfile" : 1
+```
+
+---
+
+## Key features
+
+- Topic modeling with NMF, LSA, and LDA (5 components each in routes)
+- Word clouds, guest frequency, estimated duration plots
+- Flask /ask LangChain chatbot with chat logging
+- Saved classification_model.pkl + vectorizer.pkl
+- Sample Lex Fridman episode transcripts
+- Docker support and CI
+
+---
+
+## Tech stack
+
+| Layer | Technology |
 |---|---|
-| Language | Python 3.10+ |
-| NLP | scikit-learn (LSA/NMF/LDA), NLTK, spaCy (in requirements) |
-| UI | Flask + Jinja templates, Streamlit (`app_streamlit.py`) |
-| Agents | LangChain chatbot tools |
-| Viz | matplotlib, wordcloud |
-| CI | GitHub Actions + pytest |
+| web | Flask |
+| ui | Streamlit |
+| nlp | scikit-learn |
+| nlp | BERTopic |
+| nlp | spaCy |
+| nlp | NLTK |
+| embeddings | sentence-transformers |
+| agents | LangChain |
+| explainability | LIME |
+| explainability | SHAP |
+| containers | Docker |
+| ci | GitHub Actions |
 
 ---
 
-## Installation & Usage
+## Skills demonstrated
+
+Jupyter Notebook · F · l · a · s · k · , · CI/CD · testing · automation
+
+Keyword surface: **Python · Jupyter Notebook · machine-learning · CI/CD · testing · API · Docker · automation · data-science · software-engineering · system-design · observability · LLM · cloud**
+
+---
+
+## Project structure
+
+```text
+AI-Explains-...-Podcasts/
+â”œâ”€â”€ main.py                 # Flask LangChain /ask
+â”œâ”€â”€ app_streamlit.py
+â”œâ”€â”€ app/{app,routes,generate_insights,utils}.py
+â”œâ”€â”€ langchain_chatbot/tools/
+â”œâ”€â”€ notebooks/01..05_*.ipynb
+â”œâ”€â”€ Transcripts/*.txt
+â”œâ”€â”€ final_model/{classification_model,vectorizer}.pkl
+â”œâ”€â”€ static/plots/
+â”œâ”€â”€ Dockerfile
+â”œâ”€â”€ requirements.txt
+â””â”€â”€ tests/
+```
+
+---
+
+## Installation & usage
 
 ```bash
 git clone https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts.git
 cd AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts
 pip install -r requirements.txt
-pytest tests/ -v
-python -m flask --app app.app run   # or: python app/app.py
+python main.py
 ```
-
-Run notebooks in order under `notebooks/` to reproduce data collection through Flask integration.
 
 ---
 
-## Repository Layout
+## How it works
 
-| Path | Purpose |
-|---|---|
-| `notebooks/` | 5-step pipeline (collect → preprocess → topics → classify → Flask) |
-| `app/` | Flask UI, static plots, templates |
-| `langchain_chatbot/tools/` | Guest search, topic predict, wiki tool |
-| `final_model/` | Serialized classifier + vectorizer |
-| `Transcripts/` | Per-episode transcript text files |
+Research notebooks build cleaned Lex Fridman-style data and train topic/classification artifacts. The Flask app regenerates insight plots (topics, guests, duration, wordcloud) and serves a LangChain agent that answers questions using guest/wiki/topic tools. classification_report.txt currently records a failed classification run message rather than scores.
+
+---
+
+## Future improvements
+
+- Commit cleaned CSV referenced by DATA_PATH or document download step
+- Publish real classification metrics when model evaluation succeeds
+- Trim checked-in mp4 demos / __pycache__ from the tree
 
 ---
 
 ## License
 
-See repository license file if present.
+See repository.
+
+---
+
+<p align="center">
+  <b>Emotion Insight Mining Framework for Podcasts</b><br/>
+  <a href="https://github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts">github.com/ArchanaChetan07/AI-Explains-What-They-Meant-An-Emotion-Insight-Mining-Framework-for-Podcasts</a>
+</p>
